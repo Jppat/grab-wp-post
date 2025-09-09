@@ -10,7 +10,13 @@ const [date, setDate] = useState("")
 
   function handleSubmit(e) {
     e.preventDefault()
-    console.log({url, categoryId, date})
+    let params = []
+
+    categoryId && params.push(`categories=${categoryId}`)
+    date && params.push(`after=${date}T00:00:00&before=${date}T23:59:59`)
+
+    const request = `${url}/posts?${params && params.join('&')}`
+    console.log(request)
   }
 
   return (
@@ -18,7 +24,7 @@ const [date, setDate] = useState("")
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="url">WordPress Site URL: </label>
-          <input type="url" id= "url" name="url" placeholder="Enter URL of WordPress site here" value={url} onChange={e => setUrl(e.target.value)} />
+          <input type="url" id= "url" name="url" placeholder="Enter URL of WordPress site here" value={url} required onChange={e => setUrl(e.target.value)} />
         </div>
 
         <div>
