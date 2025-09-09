@@ -6,6 +6,7 @@ function App() {
 const [url, setUrl] = useState("")
 const [categoryId, setCategoryId] = useState(1)
 const [date, setDate] = useState("")
+const [posts, setPosts] = useState([])
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -17,11 +18,10 @@ const [date, setDate] = useState("")
     const request = `${url}/posts?${params && params.join('&')}`
     try {
       const response = await axios.get(request);
-      console.log(response.data)
-      return response.data; // return just the data from the API
+      setPosts(response.data); // return just the data from the API
     } catch (error) {
       console.error("Error fetching user data:", error.message);
-      return null; // return null (or throw) so the caller knows it failed
+      setPosts([])
     }
   }
 
