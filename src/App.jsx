@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import axios from "axios";
 
 function App() {
 
@@ -8,7 +7,7 @@ const [url, setUrl] = useState("")
 const [categoryId, setCategoryId] = useState(1)
 const [date, setDate] = useState("")
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     let params = []
 
@@ -16,7 +15,14 @@ const [date, setDate] = useState("")
     date && params.push(`after=${date}T00:00:00&before=${date}T23:59:59`)
 
     const request = `${url}/posts?${params && params.join('&')}`
-    console.log(request)
+    try {
+      const response = await axios.get(request);
+      console.log(response.data)
+      return response.data; // return just the data from the API
+    } catch (error) {
+      console.error("Error fetching user data:", error.message);
+      return null; // return null (or throw) so the caller knows it failed
+    }
   }
 
   return (
