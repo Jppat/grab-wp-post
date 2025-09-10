@@ -17,24 +17,26 @@ function Posts({posts}) {
 function Form(props){
   return(
     <>
-      <form onSubmit={props.onSubmit}>
-        <div>
-          <label htmlFor="url">WordPress Site URL: </label>
-          <input type="url" id= "url" name="url" placeholder="Enter URL of WordPress site here" value={props.url} required onChange={e => props.setUrl(e.target.value)} />
-        </div>
+      <main>
+        <form onSubmit={props.onSubmit}>
+          <div>
+            <label htmlFor="url">WordPress Site URL: </label>
+            <input type="url" id= "url" name="url" placeholder="Enter URL of WordPress site here" value={props.url} required onChange={e => props.setUrl(e.target.value)} />
+          </div>
 
-        <div>
-          <label htmlFor="category-id">Category id: </label>
-          <input type="number" id= "category-id" name="category-id" min="1" step="1" value={props.categoryId} onChange={e => props.setCategoryId(e.target.value)}/>
-        </div>
+          <div>
+            <label htmlFor="category-id">Category id: </label>
+            <input type="number" id= "category-id" name="category-id" min="1" step="1" value={props.categoryId} onChange={e => props.setCategoryId(e.target.value)}/>
+          </div>
 
-        <div>
-          <label htmlFor="date">Date published: </label>
-          <input type="date" id= "date" name="date"  value={props.date} onChange={e => props.setDate(e.target.value)}/>
-        </div>
+          <div>
+            <label htmlFor="date">Date published: </label>
+            <input type="date" id= "date" name="date"  value={props.date} onChange={e => props.setDate(e.target.value)}/>
+          </div>
 
-        <button type="submit">Submit</button>
-      </form>
+          <button type="submit">Submit</button>
+        </form>
+      </main>
     </>
   )
 }
