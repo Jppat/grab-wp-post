@@ -1,42 +1,56 @@
 import { useState } from 'react'
 import axios from "axios";
+import DOMPurify from 'dompurify';
+import TurndownService from 'turndown';
+import Markdown from 'react-markdown'
+
+import './App.css';
 
 function Posts({posts}) {
+  const turndownService = new TurndownService()
+  let post_info = posts.map(post => {
+    let id = post.id;
+    let title = turndownService.turndown(`<h3>${DOMPurify.sanitize(post.title.rendered)}</h3>`)
+    let excerpt = turndownService.turndown(DOMPurify.sanitize(post.excerpt.rendered))
+    return ({id, title, excerpt})
+  })
+  const final_post = post_info.filter(post => post.excerpt != "");
   return (
-    <div>
-      <h2>Posts</h2>
+    <>
+      {(final_post.length != 0) && <h2>Posts</h2>}
       <ul>
-        {posts.map(post => (
-          <li key={post.id}>{post.title.rendered}</li>
+        {final_post.map(post => (
+          <li key={post.id}>
+            <Markdown>{post.title}</Markdown>
+            <Markdown>{post.excerpt}</Markdown>
+          </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 }
 
 function Form(props){
   return(
     <>
-      <main>
-        <form onSubmit={props.onSubmit}>
-          <div>
-            <label htmlFor="url">WordPress Site URL: </label>
-            <input type="url" id= "url" name="url" placeholder="Enter URL of WordPress site here" value={props.url} required onChange={e => props.setUrl(e.target.value)} />
-          </div>
+      <form onSubmit={props.onSubmit}>
+        <div>
+          <label htmlFor="url">WordPress Site URL: </label>
+          <input type="url" id= "url" name="url" placeholder="Enter URL of WordPress site here" value={props.url} required onChange={e => props.setUrl(e.target.value)} />
+        </div>
 
-          <div>
-            <label htmlFor="category-id">Category id: </label>
-            <input type="number" id= "category-id" name="category-id" min="1" step="1" value={props.categoryId} onChange={e => props.setCategoryId(e.target.value)}/>
-          </div>
+        <div>
+          <label htmlFor="category-id">Category id: </label>
+          <input type="number" id= "category-id" name="category-id" min="1" step="1" value={props.categoryId} onChange={e => props.setCategoryId(e.target.value)}/>
+        </div>
 
-          <div>
-            <label htmlFor="date">Date published: </label>
-            <input type="date" id= "date" name="date"  value={props.date} onChange={e => props.setDate(e.target.value)}/>
-          </div>
+        <div>
+          <label htmlFor="date">Date published: </label>
+          <input type="date" id= "date" name="date"  value={props.date} onChange={e => props.setDate(e.target.value)}/>
+        </div>
 
-          <button type="submit">Submit</button>
-        </form>
-      </main>
+        <button type="submit">Submit</button>
+      </form>
     </>
   )
 }
@@ -66,12 +80,13 @@ function App() {
 
   return (
     <>
-      <Form onSubmit={handleSubmit} 
+    <main>
+      <Form className="form" onSubmit={handleSubmit} 
             setUrl={setUrl}
             setCategoryId={setCategoryId}
-            setDate={setDate}
-      />
+            setDate={setDate} />
       <Posts posts={posts}/>
+    </main>
     </>
     )
 }
