@@ -3,12 +3,11 @@ import axios from "axios";
 import DOMPurify from 'dompurify';
 import TurndownService from 'turndown';
 import Markdown from 'react-markdown'
-
 import './App.css';
 
-function Posts({posts}) {
+function Post({posts}) {
 
-  async function copyButton(title, content){
+    async function copyButton(title, content){
     const contentByParagraph = content.split(/\n+/)
     const copiedText = `${title}\n${contentByParagraph[0]}`
     try {
@@ -18,6 +17,20 @@ function Posts({posts}) {
         console.error('Failed to copy:', err);
       }
   }
+  return(
+    <ul>
+      {posts.map(post => (
+        <li key={post.id}>
+          <Markdown>{post.title}</Markdown>
+          <Markdown>{post.excerpt}</Markdown>
+          <button onClick={() => copyButton(post.title, post.content)}>Copy</button>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+function Posts({posts}) {
   const turndownService = new TurndownService()
   let post_info = posts.map(post => {
     let id = post.id;
@@ -30,15 +43,7 @@ function Posts({posts}) {
   return (
     <>
       {(final_post.length != 0) && <h2>Posts</h2>}
-      <ul>
-        {final_post.map(post => (
-          <li key={post.id}>
-            <Markdown>{post.title}</Markdown>
-            <Markdown>{post.excerpt}</Markdown>
-            <button onClick={() => copyButton(post.title, post.content)}>Copy</button>
-          </li>
-        ))}
-      </ul>
+      <Post posts={final_post} />
     </>
   );
 }
