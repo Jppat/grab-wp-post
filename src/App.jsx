@@ -7,12 +7,23 @@ import Markdown from 'react-markdown'
 import './App.css';
 
 function Posts({posts}) {
+
+  async function copyButton(content){
+    const contentByParagraph = content.split(/\n+/)
+    try {
+        await navigator.clipboard.writeText(contentByParagraph[0]);
+        console.log('Copied to clipboard:', contentByParagraph[0]);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+      }
+  }
   const turndownService = new TurndownService()
   let post_info = posts.map(post => {
     let id = post.id;
     let title = turndownService.turndown(`<h3>${DOMPurify.sanitize(post.title.rendered)}</h3>`)
     let excerpt = turndownService.turndown(DOMPurify.sanitize(post.excerpt.rendered))
-    return ({id, title, excerpt})
+    let content = turndownService.turndown(DOMPurify.sanitize(post.content.rendered))
+    return ({id, title, excerpt, content})
   })
   const final_post = post_info.filter(post => post.excerpt != "");
   return (
@@ -23,6 +34,7 @@ function Posts({posts}) {
           <li key={post.id}>
             <Markdown>{post.title}</Markdown>
             <Markdown>{post.excerpt}</Markdown>
+            <button onClick={() => copyButton(post.content)}>Copy</button>
           </li>
         ))}
       </ul>
