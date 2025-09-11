@@ -8,11 +8,12 @@ import './App.css';
 
 function Posts({posts}) {
 
-  async function copyButton(content){
+  async function copyButton(title, content){
     const contentByParagraph = content.split(/\n+/)
+    const copiedText = `${title}\n${contentByParagraph[0]}`
     try {
-        await navigator.clipboard.writeText(contentByParagraph[0]);
-        console.log('Copied to clipboard:', contentByParagraph[0]);
+        await navigator.clipboard.writeText(copiedText);
+        console.log('Copied to clipboard:', copiedText);
       } catch (err) {
         console.error('Failed to copy:', err);
       }
@@ -34,7 +35,7 @@ function Posts({posts}) {
           <li key={post.id}>
             <Markdown>{post.title}</Markdown>
             <Markdown>{post.excerpt}</Markdown>
-            <button onClick={() => copyButton(post.content)}>Copy</button>
+            <button onClick={() => copyButton(post.title, post.content)}>Copy</button>
           </li>
         ))}
       </ul>
