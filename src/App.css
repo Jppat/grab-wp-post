@@ -14,11 +14,13 @@ form {
 ul {
     display: flex;
     flex-direction: row;
-    list-style: none;
-    flex-wrap: wrap;
+    justify-content: center;
+    flex-wrap: wrap;   
     gap: 20px;
-
-    width: 100%
+    
+    list-style: none;
+    width: 100%;
+    padding-inline-start: 0;
 }
 
 h2 {
@@ -29,4 +31,8 @@ li {
     width: 300px;
     border: solid gray 0.5px;
     padding: 20px;
+}
+
+.copiedText {
+    background-color: #ffe5e5;
 }
