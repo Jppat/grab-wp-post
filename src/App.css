@@ -36,3 +36,11 @@ li {
 .copiedText {
     background-color: #ffe5e5;
 }
+
+.loading {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #555;
+    margin: 0 auto;
+}

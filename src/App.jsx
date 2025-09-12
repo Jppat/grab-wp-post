@@ -15,7 +15,6 @@ function Post({post}) {
       const copiedText = `${title}\n${contentByParagraph[0]}`;
       try {
           await navigator.clipboard.writeText(copiedText);
-          console.log('Copied to clipboard:', copiedText);
         } catch (err) {
           console.error('Failed to copy:', err);
         }
@@ -25,7 +24,6 @@ function Post({post}) {
       <Markdown>{post.title}</Markdown>
       <Markdown>{post.excerpt}</Markdown>
       <button onClick={() => copyButton(post.title, post.content)}>Copy</button>
-      {console.log(isTextCopied)}
     </li>
   )
 }
@@ -42,7 +40,6 @@ function Posts({posts}) {
   const final_post = post_info.filter(post => post.excerpt != "");
   return (
     <>
-      {(final_post.length != 0) && <h2>Posts</h2>}
       <ul>
         {final_post.map(post => (
           <Post post={post} />
@@ -110,8 +107,10 @@ function App() {
             setUrl={setUrl}
             setCategoryId={setCategoryId}
             setDate={setDate} />
+      {(posts.length != 0) && <h2>Posts</h2>}
+      {isLoading && <p className="loading">Loading...</p>}
       <Posts posts={posts}/>
-      {console.log(isLoading)}
+      {console.log("isLoading:", isLoading)}
     </main>
     </>
     )
