@@ -80,6 +80,7 @@ function App() {
   const [date, setDate] = useState("")
   const [posts, setPosts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -90,11 +91,13 @@ function App() {
 
     const request = `${url}/posts?${params && params.join('&')}`;
     try {
+      setError(null);
       setIsLoading(true);
       const response = await axios.get(request);
       setPosts(response.data); // return just the data from the API
     } catch (error) {
-      console.error("Error fetching user data:", error.message);
+      console.error("Error fetching posts:", error);
+      setError(error.message);
       setPosts([]);
     }
     setIsLoading(false);
@@ -107,6 +110,7 @@ function App() {
             setUrl={setUrl}
             setCategoryId={setCategoryId}
             setDate={setDate} />
+      {error && <p className="error">Something went wrong ({error}). Please check the url and try again</p>}
       {(posts.length != 0) && <h2>Posts</h2>}
       {isLoading && <p className="loading">Loading...</p>}
       <Posts posts={posts}/>

@@ -44,3 +44,14 @@ li {
     color: #555;
     margin: 0 auto;
 }
+
+.error {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #bc1e1e;
+    margin: 0 auto;
+    border: solid #bc1e1e 0.5px;
+    width: fit-content;
+    padding: 5px
+}
