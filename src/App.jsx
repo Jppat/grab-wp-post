@@ -20,7 +20,7 @@ function Post({post}) {
         }
   }
   return(
-    <li key={post.id} className={isTextCopied && "copiedText"} >
+    <li key={post.id} className={isTextCopied ? "copiedText" : "noCopy"} >
       <Markdown>{post.title}</Markdown>
       <Markdown>{post.excerpt}</Markdown>
       <button onClick={() => copyButton(post.title, post.content)}>Copy</button>
