@@ -82,6 +82,7 @@ function App() {
   const [categoryId, setCategoryId] = useState(1)
   const [date, setDate] = useState("")
   const [posts, setPosts] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -92,12 +93,14 @@ function App() {
 
     const request = `${url}/posts?${params && params.join('&')}`;
     try {
+      setIsLoading(true);
       const response = await axios.get(request);
       setPosts(response.data); // return just the data from the API
     } catch (error) {
       console.error("Error fetching user data:", error.message);
       setPosts([]);
     }
+    setIsLoading(false);
   }
 
   return (
@@ -108,6 +111,7 @@ function App() {
             setCategoryId={setCategoryId}
             setDate={setDate} />
       <Posts posts={posts}/>
+      {console.log(isLoading)}
     </main>
     </>
     )
