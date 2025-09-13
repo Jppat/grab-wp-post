@@ -3,6 +3,9 @@ import axios from "axios";
 import DOMPurify from 'dompurify';
 import TurndownService from 'turndown';
 import Markdown from 'react-markdown'
+
+import createAxiosInstance from './axiosInstance';
+
 import './App.css';
 
 function Post({post}) {
@@ -82,22 +85,29 @@ function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  console.log("isLoading:", isLoading)
+
   async function handleSubmit(e) {
     e.preventDefault();
-    let params = [];
+    
+    const params = {}
+    categoryId && (params['categories'] = categoryId);
+    date && (params['after'] = 'T00:00:00') && (params['before'] = 'T23:59:59');
 
-    categoryId && params.push(`categories=${categoryId}`);
-    date && params.push(`after=${date}T00:00:00&before=${date}T23:59:59`);
-
-    const request = `${url}/posts?${params && params.join('&')}`;
+    const axiosInstance = createAxiosInstance();
+    
     try {
       setError(null);
       setIsLoading(true);
-      const response = await axios.get(request);
-      setPosts(response.data); // return just the data from the API
+      const response = await axiosInstance.get('/wp-json/wp/v2/posts', {
+        baseURL: url,
+        params: params
+      })
+      setPosts(response); // return just the data from the API
+      console.log("inside try block");
     } catch (error) {
-      console.error("Error fetching posts:", error);
-      setError(error.message);
+      console.log("inside catch block");
+      setError(error.humanMessage);
       setPosts([]);
     }
     setIsLoading(false);
@@ -110,11 +120,10 @@ function App() {
             setUrl={setUrl}
             setCategoryId={setCategoryId}
             setDate={setDate} />
-      {error && <p className="error">Something went wrong ({error}). Please check the url and try again</p>}
+      {error && <p className="error">{error}</p>}
       {(posts.length != 0) && <h2>Posts</h2>}
       {isLoading && <p className="loading">Loading...</p>}
       <Posts posts={posts}/>
-      {console.log("isLoading:", isLoading)}
     </main>
     </>
     )
