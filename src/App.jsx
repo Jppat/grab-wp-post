@@ -99,6 +99,7 @@ function App() {
     try {
       setError(null);
       setIsLoading(true);
+      setPosts([]);
       const response = await axiosInstance.get('/wp-json/wp/v2/posts', {
         baseURL: url,
         params: params
