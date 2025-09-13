@@ -122,7 +122,7 @@ function App() {
             setCategoryId={setCategoryId}
             setDate={setDate} />
       {error && <p className="error">{error}</p>}
-      {(posts.length != 0) && <h2>Posts</h2>}
+      {(posts.length != 0) ? <h2>Posts</h2> : <h2>No posts found</h2>}
       {isLoading && <p className="loading">Loading...</p>}
       <Posts posts={posts}/>
     </main>
