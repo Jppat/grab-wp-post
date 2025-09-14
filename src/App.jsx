@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import axios from "axios";
 import DOMPurify from 'dompurify';
 import TurndownService from 'turndown';
 import Markdown from 'react-markdown'
