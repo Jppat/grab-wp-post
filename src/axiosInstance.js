@@ -4,7 +4,7 @@ export function createAxiosInstance() {
   const instance = axios.create();
 
   instance.interceptors.response.use(
-    response => response.data, // pass successful responses unchanged
+    response => response.data,
     error => {
       let message = "Something went wrong. Please try again later.";
 
