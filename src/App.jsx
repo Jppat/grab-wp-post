@@ -56,17 +56,17 @@ function Form(props){
     <>
       <form onSubmit={props.onSubmit}>
         <div>
-          <label htmlFor="url">WordPress Site URL: </label>
+          <label htmlFor="url"><strong>WordPress Site URL: </strong></label>
           <input type="url" id= "url" name="url" placeholder="Enter URL of WordPress site here" value={props.url} required onChange={e => props.setUrl(e.target.value)} />
         </div>
 
         <div>
-          <label htmlFor="category-id">Category id: </label>
+          <label htmlFor="category-id"><strong>Category id: </strong></label>
           <input type="number" id= "category-id" name="category-id" min="1" step="1" value={props.categoryId} onChange={e => props.setCategoryId(e.target.value)}/>
         </div>
 
         <div>
-          <label htmlFor="date">Date published: </label>
+          <label htmlFor="date"><strong>Date published: </strong></label>
           <input type="date" id= "date" name="date"  value={props.date} onChange={e => props.setDate(e.target.value)}/>
         </div>
 
@@ -121,9 +121,11 @@ function App() {
             setCategoryId={setCategoryId}
             setDate={setDate} />
       {error && <p className="error">{error}</p>}
-      {(posts.length != 0) ? <h2>Posts</h2> : <h2>No posts found</h2>}
-      {isLoading && <p className="loading">Loading...</p>}
-      <Posts posts={posts}/>
+      <section className="posts">
+        {(posts.length != 0) ? <h2>Posts</h2> : <h2>No posts found</h2>}
+        {isLoading && <p className="loading">Loading...</p>}
+        <Posts posts={posts}/>
+      </section>
     </main>
     </>
     )
