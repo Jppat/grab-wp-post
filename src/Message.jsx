@@ -1,9 +1,10 @@
 import { useState } from "react";
 
-function Message () {
-    const [message, setMessage] = useState("");
+function Message ({message}) {
     return (
-        <></>
+        <>
+            <p className="error">{message}</p>
+        </>
     )
 }
 

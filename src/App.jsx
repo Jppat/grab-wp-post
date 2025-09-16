@@ -4,6 +4,7 @@ import TurndownService from 'turndown';
 import Markdown from 'react-markdown'
 
 import createAxiosInstance from './axiosInstance';
+import Message from './Message';
 
 import './App.css';
 
@@ -42,11 +43,13 @@ function Posts({posts}) {
   const final_post = post_info.filter(post => post.excerpt != "");
   return (
     <>
+      {(posts.length > 0) && 
       <ul>
         {final_post.map(post => (
           <Post post={post} />
         ))}
       </ul>
+    }
     </>
   );
 }
@@ -82,7 +85,7 @@ function App() {
   const [date, setDate] = useState("")
   const [posts, setPosts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [message, setMessage] = useState(null)
 
   console.log("isLoading:", isLoading)
 
@@ -96,18 +99,20 @@ function App() {
     const axiosInstance = createAxiosInstance();
     
     try {
-      setError(null);
+      setMessage(null);
       setIsLoading(true);
       setPosts([]);
       const response = await axiosInstance.get('/wp-json/wp/v2/posts', {
         baseURL: url,
         params: params
       })
+      if (response.length === 0) {setMessage("No posts found.")}
       setPosts(response); // return just the data from the API
       console.log("inside try block");
     } catch (error) {
       console.log("inside catch block");
-      setError(error.humanMessage);
+      console.log(error);
+      setMessage(error.humanMessage);
       setPosts([]);
     }
     setIsLoading(false);
@@ -120,10 +125,10 @@ function App() {
             setUrl={setUrl}
             setCategoryId={setCategoryId}
             setDate={setDate} />
-      {error && <p className="error">{error}</p>}
       <section className="posts">
-        {(posts.length != 0) ? <h2>Posts</h2> : <h2>No posts found</h2>}
+        {}
         {isLoading && <p className="loading">Loading...</p>}
+        {message && <Message message={message} />}
         <Posts posts={posts}/>
       </section>
     </main>
