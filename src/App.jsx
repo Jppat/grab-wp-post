@@ -125,8 +125,7 @@ function App() {
             setUrl={setUrl}
             setCategoryId={setCategoryId}
             setDate={setDate} />
-      <section className="posts">
-        {}
+      <section className={`posts ${(posts.length == 0) ? "no-border" : ""}`} >
         {isLoading && <p className="loading">Loading...</p>}
         {message && <Message message={message} />}
         <Posts posts={posts}/>

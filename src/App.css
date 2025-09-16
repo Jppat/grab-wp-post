@@ -28,6 +28,11 @@ form {
     justify-self: center;
 }
 
+.posts.no-border {
+    border: 0px solid lightgrey;
+
+}
+
 h2 {
     text-align: center;
 }
