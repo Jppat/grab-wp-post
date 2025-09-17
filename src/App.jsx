@@ -60,7 +60,9 @@ function Form(props){
       <form onSubmit={props.onSubmit}>
         <div>
           <label htmlFor="url"><strong>WordPress Site URL: </strong></label>
-          <input type="url" id= "url" name="url" placeholder="Enter URL of WordPress site here" value={props.url} required onChange={e => props.setUrl(e.target.value)} />
+          <input type="url" id= "url" name="url" placeholder="Enter URL of WordPress site here" value={props.url} required onChange={e => {
+            props.setUrl(e.target.value)
+          }} />
         </div>
 
         <div>
@@ -94,7 +96,7 @@ function App() {
     
     const params = {}
     categoryId && (params['categories'] = categoryId);
-    date && (params['after'] = 'T00:00:00') && (params['before'] = 'T23:59:59');
+    date && (params['after'] = `${date}T00:00:00`) && (params['before'] = `${date}T23:59:59`);
 
     const axiosInstance = createAxiosInstance();
     
