@@ -61,7 +61,11 @@ function Form(props){
         <div>
           <label htmlFor="url"><strong>WordPress Site URL: </strong></label>
           <input type="url" id= "url" name="url" placeholder="Enter URL of WordPress site here" value={props.url} required onChange={e => {
-            props.setUrl(e.target.value)
+            let input = e.target;
+            if (!input.value.startsWith("http://") && !input.value.startsWith("https://")) {
+              input.value = "https://" + input.value;
+            }
+            props.setUrl(input.value)
           }} />
         </div>
 
