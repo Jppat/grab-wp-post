@@ -13,11 +13,11 @@ function Post({post}) {
     const [isTextCopied, setIsTextCopied] = useState(false);
 
     async function copyButton(title, content){
-      setIsTextCopied(true);
       const contentByParagraph = content.split(/\n+/);
       const copiedText = `${title}\n${contentByParagraph[0]}`;
       try {
-          await navigator.clipboard.writeText(copiedText);
+        await navigator.clipboard.writeText(copiedText);
+        setIsTextCopied(true);
         } catch (err) {
           console.error('Failed to copy:', err);
         }
@@ -27,6 +27,7 @@ function Post({post}) {
       <Markdown>{post.title}</Markdown>
       <Markdown>{post.excerpt}</Markdown>
       <button onClick={() => copyButton(post.title, post.content)}>Copy</button>
+      {isTextCopied && <span className="copiedMessage">Copied!</span>}
     </li>
   )
 }

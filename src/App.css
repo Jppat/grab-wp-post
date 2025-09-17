@@ -46,6 +46,20 @@ li {
     background-color: #ffe5e5;
 }
 
+.copiedMessage {
+    font-size: 0.8em;
+    margin-left: 10px;
+    color: green;
+    font-weight: bold;
+}
+
+copiedMessageError {
+    font-size: 0.8em;
+    margin-left: 10px;
+    color: red;
+    font-weight: bold;
+}
+
 .loading {
     text-align: center;
     font-size: 1.2em;
