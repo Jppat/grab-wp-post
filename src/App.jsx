@@ -93,8 +93,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState(null)
 
-  console.log("isLoading:", isLoading)
-
   async function handleSubmit(e) {
     e.preventDefault();
     
