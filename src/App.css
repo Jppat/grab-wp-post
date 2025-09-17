@@ -20,19 +20,6 @@ form {
     box-shadow: 0 0 3px rgba(40, 40, 40, 0.5);
 }
 
-.posts {
-    display: flex;
-    flex-direction: column;
-    width: 900px;
-    border: 1px solid lightgrey;
-    justify-self: center;
-}
-
-.posts.no-border {
-    border: 0px solid lightgrey;
-
-}
-
 h2 {
     text-align: center;
 }
