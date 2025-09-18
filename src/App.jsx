@@ -34,7 +34,7 @@ function Post({post}) {
 
   return(
     <li key={post.id} className={isTextCopied ? "copiedText" : "noCopy"} >
-      <Markdown>{post.title}</Markdown>
+      <h3>{post.title}</h3>
       <Markdown>{post.excerpt}</Markdown>
       <button onClick={() => copyButton(post.title, post.content, post.link)}>Copy</button>
       {isTextCopied && <span className="copiedMessage">{showCopyMessage}</span>}
@@ -46,7 +46,7 @@ function Posts({posts}) {
   const turndownService = new TurndownService();
   let post_info = posts.map(post => {
     let id = post.id;
-    let title = turndownService.turndown(`<h3>${DOMPurify.sanitize(post.title.rendered)}</h3>`);
+    let title = post.title.rendered;
     let excerpt = turndownService.turndown(DOMPurify.sanitize(post.excerpt.rendered));
     let content = turndownService.turndown(DOMPurify.sanitize(post.content.rendered));
     let link = post.link;
