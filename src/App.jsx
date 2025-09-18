@@ -16,9 +16,7 @@ function Post({post}) {
 
     async function copyButton(title, content, link){
       const contentByParagraph = content.split(/\n+/);
-      const copiedText = `${title}\n
-                          ${contentByParagraph[0]}\n
-                          ${link}`;
+      const copiedText = `${title}\n\n${contentByParagraph[0]}\n\n${link}`;
       try {
         await navigator.clipboard.writeText(copiedText);
         setIsTextCopied(true);
