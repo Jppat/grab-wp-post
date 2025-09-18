@@ -12,9 +12,11 @@ function Post({post}) {
 
     const [isTextCopied, setIsTextCopied] = useState(false);
 
-    async function copyButton(title, content){
+    async function copyButton(title, content, link){
       const contentByParagraph = content.split(/\n+/);
-      const copiedText = `${title}\n${contentByParagraph[0]}`;
+      const copiedText = `${title}\n
+                          ${contentByParagraph[0]}\n
+                          ${link}`;
       try {
         await navigator.clipboard.writeText(copiedText);
         setIsTextCopied(true);
@@ -26,8 +28,8 @@ function Post({post}) {
     <li key={post.id} className={isTextCopied ? "copiedText" : "noCopy"} >
       <Markdown>{post.title}</Markdown>
       <Markdown>{post.excerpt}</Markdown>
-      <button onClick={() => copyButton(post.title, post.content)}>Copy</button>
-      {isTextCopied && <span className="copiedMessage">Copied!</span>}
+      <button onClick={() => copyButton(post.title, post.content, post.link)}>Copy</button>
+      {isTextCopied ? <span className="copiedMessage">Copied!</span> : <span className="copiedMessageError">Try again</span> }
     </li>
   )
 }
@@ -39,7 +41,8 @@ function Posts({posts}) {
     let title = turndownService.turndown(`<h3>${DOMPurify.sanitize(post.title.rendered)}</h3>`);
     let excerpt = turndownService.turndown(DOMPurify.sanitize(post.excerpt.rendered));
     let content = turndownService.turndown(DOMPurify.sanitize(post.content.rendered));
-    return ({id, title, excerpt, content});
+    let link = post.link;
+    return ({id, title, excerpt, content, link});
   })
   const final_post = post_info.filter(post => post.excerpt != "");
   return (
