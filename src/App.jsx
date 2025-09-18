@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react';
+
 import DOMPurify from 'dompurify';
 import TurndownService from 'turndown';
 import Markdown from 'react-markdown'
@@ -11,6 +12,7 @@ import './App.css';
 function Post({post}) {
 
     const [isTextCopied, setIsTextCopied] = useState(false);
+    const [showCopyMessage, setShowCopyMessage] = useState(null);
 
     async function copyButton(title, content, link){
       const contentByParagraph = content.split(/\n+/);
@@ -20,16 +22,22 @@ function Post({post}) {
       try {
         await navigator.clipboard.writeText(copiedText);
         setIsTextCopied(true);
+        setShowCopyMessage('Copied!');
+        setTimeout(() => {
+          setShowCopyMessage(null);
+        }, 2000);
         } catch (err) {
+          setShowCopyMessage('Failed to copy. Try again.');
           console.error('Failed to copy:', err);
         }
   }
+
   return(
     <li key={post.id} className={isTextCopied ? "copiedText" : "noCopy"} >
       <Markdown>{post.title}</Markdown>
       <Markdown>{post.excerpt}</Markdown>
       <button onClick={() => copyButton(post.title, post.content, post.link)}>Copy</button>
-      {isTextCopied ? <span className="copiedMessage">Copied!</span> : <span className="copiedMessageError">Try again</span> }
+      {isTextCopied && <span className="copiedMessage">{showCopyMessage}</span>}
     </li>
   )
 }
