@@ -31,11 +31,11 @@ function Post({post}) {
   }
 
   return(
-    <li key={post.id} className={isTextCopied ? "copiedText" : "noCopy"} >
+    <li key={post.id} className={`w-3/12 border border-gray-300 p-5 ${isTextCopied ? "bg-red-100" : null}`} >
       <h3>{post.title}</h3>
       <Markdown>{post.excerpt}</Markdown>
       <button onClick={() => copyButton(post.title, post.content, post.link)}>Copy</button>
-      {isTextCopied && <span className="copiedMessage">{showCopyMessage}</span>}
+      {isTextCopied && <span className="text-xs ml-2 text-green-600 font-bold">{showCopyMessage}</span>}
     </li>
   )
 }
@@ -54,7 +54,7 @@ function Posts({posts}) {
   return (
     <>
       {(posts.length > 0) && 
-      <ul>
+      <ul className = "flex flex-row justify-center flex-wrap gap-5 list-none w-full ps-0">
         {final_post.map(post => (
           <Post post={post} />
         ))}
@@ -67,7 +67,9 @@ function Posts({posts}) {
 function Form(props){
   return(
     <>
-      <form onSubmit={props.onSubmit}>
+      <form
+        className="flex flex-col justify-self-center gap-2 mt-8 mb-8 w-4/12 p-6 rounded-lg shadow-lg" 
+        onSubmit={props.onSubmit}>
         <div>
           <label htmlFor="url"><strong>WordPress Site URL: </strong></label>
           <input type="url" id= "url" name="url" placeholder="Enter URL of WordPress site here" value={props.url} required onChange={e => {
@@ -134,13 +136,13 @@ function App() {
 
   return (
     <>
-    <main>
-      <Form className="form" onSubmit={handleSubmit} 
+    <main className="w-screen" >
+      <Form onSubmit={handleSubmit} 
             setUrl={setUrl}
             setCategoryId={setCategoryId}
             setDate={setDate} />
       <section className={"posts"} >
-        {isLoading && <p className="loading">Loading...</p>}
+        {isLoading && <p className="text-center text-lg font-bold text-gray-600 mx-auto">Loading...</p>}
         {message && <Message message={message} />}
         <Posts posts={posts}/>
       </section>
