@@ -1,11 +1,10 @@
-body {
+/* body {
     font-family: 'Roboto', sans-serif;
 }
 
-
 main {
     width: 99vw;
-}
+} 
 
 form {
     display: flex;
@@ -77,4 +76,4 @@ copiedMessageError {
     border: solid #bc1e1e 0.5px;
     padding: 10px;
     align-self: center;
-}
+} */
