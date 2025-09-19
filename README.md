@@ -29,7 +29,3 @@ Built with Vite, JavaScript, HTML, and CSS
 * JavaScript
 * HTML & CSS
 * Vite
-
-## License
-
-This project is open-source and available under the MIT License.
