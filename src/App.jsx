@@ -2,7 +2,8 @@ import { useState } from 'react';
 
 import DOMPurify from 'dompurify';
 import TurndownService from 'turndown';
-import Markdown from 'react-markdown'
+import Markdown from 'react-markdown';
+import { decode } from "he";
 
 import createAxiosInstance from './axiosInstance';
 import Message from './Message';
@@ -34,8 +35,8 @@ function Post({post}) {
   return(
     <li key={post.id} className={`card card-border w-3/12 shadow-sm ${isTextCopied ? "bg-primary" : null}`} >
       <div className="card-body">
-        <h3 className='card-title'>{post.title}</h3>
-        <Markdown>{post.excerpt}</Markdown>
+        <h3 className='card-title'>{decode(post.title)}</h3>
+        <Markdown>{decode(post.excerpt)}</Markdown>
         <div className="card-actions justify-start items-center">
           <button className="btn justify-start" 
                   onClick={() => copyButton(post.title, post.content, post.link)}>
