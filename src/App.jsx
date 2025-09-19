@@ -92,7 +92,7 @@ function Form(props){
 
         <div>
           <label htmlFor="category-id"><strong>Category id: </strong></label>
-          <input className="input" type="number" id= "category-id" name="category-id" min="1" step="1" value={props.categoryId} onChange={e => props.setCategoryId(e.target.value)}/>
+          <input className="input" type="number" id= "category-id" name="category-id" step="1" value={props.categoryId} onChange={e => props.setCategoryId(e.target.value)}/>
         </div>
 
         <div>
@@ -108,7 +108,7 @@ function Form(props){
 
 function App() {
   const [url, setUrl] = useState("")
-  const [categoryId, setCategoryId] = useState(1)
+  const [categoryId, setCategoryId] = useState(null)
   const [date, setDate] = useState("")
   const [posts, setPosts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -118,8 +118,10 @@ function App() {
     e.preventDefault();
     
     const params = {}
-    categoryId && (params['categories'] = categoryId);
+    categoryId ? (params['categories'] = categoryId): null;
     date && (params['after'] = `${date}T00:00:00`) && (params['before'] = `${date}T23:59:59`);
+
+    console.log("Params:", params);
 
     const axiosInstance = createAxiosInstance();
     
