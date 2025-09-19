@@ -23,6 +23,7 @@ function Post({post}) {
         setShowCopyMessage('Copied!');
         setTimeout(() => {
           setShowCopyMessage(null);
+          setIsTextCopied(false);
         }, 2000);
         } catch (err) {
           setShowCopyMessage('Failed to copy. Try again.');
@@ -31,11 +32,18 @@ function Post({post}) {
   }
 
   return(
-    <li key={post.id} className={`w-3/12 border border-gray-300 p-5 ${isTextCopied ? "bg-red-100" : null}`} >
-      <h3>{post.title}</h3>
-      <Markdown>{post.excerpt}</Markdown>
-      <button onClick={() => copyButton(post.title, post.content, post.link)}>Copy</button>
-      {isTextCopied && <span className="text-xs ml-2 text-green-600 font-bold">{showCopyMessage}</span>}
+    <li key={post.id} className={`card card-border w-3/12 shadow-sm ${isTextCopied ? "bg-primary" : null}`} >
+      <div className="card-body">
+        <h3 className='card-title'>{post.title}</h3>
+        <Markdown>{post.excerpt}</Markdown>
+        <div className="card-actions justify-start items-center">
+          <button className="btn justify-start" 
+                  onClick={() => copyButton(post.title, post.content, post.link)}>
+                    Copy
+          </button>
+          {showCopyMessage ? <span className="text-xs ml-2 text-accent-content font-bold inline-flex items-center">{showCopyMessage}</span>:null}
+        </div>
+      </div>
     </li>
   )
 }
@@ -54,7 +62,8 @@ function Posts({posts}) {
   return (
     <>
       {(posts.length > 0) && 
-      <ul className = "flex flex-row justify-center flex-wrap gap-5 list-none w-full ps-0">
+      // <ul className = "flex flex-row justify-center flex-wrap gap-5 list-none w-full ps-0">
+      <ul className = "flex flex-row justify-center flex-wrap gap-5 list-none w-full ps-0 p-3">
         {final_post.map(post => (
           <Post post={post} />
         ))}
@@ -68,11 +77,11 @@ function Form(props){
   return(
     <>
       <form
-        className="flex flex-col justify-self-center gap-2 mt-8 mb-8 w-4/12 p-6 rounded-lg shadow-lg" 
+        className="flex flex-col justify-self-center gap-2 mt-8 mb-8 w-4/12 p-6 rounded-lg shadow-sm" 
         onSubmit={props.onSubmit}>
         <div>
           <label htmlFor="url"><strong>WordPress Site URL: </strong></label>
-          <input type="url" id= "url" name="url" placeholder="Enter URL of WordPress site here" value={props.url} required onChange={e => {
+          <input className="input" type="url" id= "url" name="url" placeholder="Enter URL of WordPress site here" value={props.url} required onChange={e => {
             let input = e.target;
             if (!input.value.startsWith("http://") && !input.value.startsWith("https://")) {
               input.value = "https://" + input.value;
@@ -83,15 +92,15 @@ function Form(props){
 
         <div>
           <label htmlFor="category-id"><strong>Category id: </strong></label>
-          <input type="number" id= "category-id" name="category-id" min="1" step="1" value={props.categoryId} onChange={e => props.setCategoryId(e.target.value)}/>
+          <input className="input" type="number" id= "category-id" name="category-id" min="1" step="1" value={props.categoryId} onChange={e => props.setCategoryId(e.target.value)}/>
         </div>
 
         <div>
           <label htmlFor="date"><strong>Date published: </strong></label>
-          <input type="date" id= "date" name="date"  value={props.date} onChange={e => props.setDate(e.target.value)}/>
+          <input className="input" type="date" id= "date" name="date"  value={props.date} onChange={e => props.setDate(e.target.value)}/>
         </div>
 
-        <button type="submit">Submit</button>
+        <button className="btn grow-0" type="submit">Submit</button>
       </form>
     </>
   )
