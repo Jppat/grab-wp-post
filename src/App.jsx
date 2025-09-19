@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 
 import DOMPurify from 'dompurify';
 import TurndownService from 'turndown';
