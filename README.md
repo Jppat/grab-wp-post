@@ -10,6 +10,9 @@ A simple web app that fetches posts from a WordPress site and displays them in c
 
 Built with Vite, JavaScript, HTML, and CSS
 
+Live Demo
+👉 [Grab WP Post](https://jppat.github.io/grab-wp-post "Visit Grab WP Post Live Demo")
+
 ## Installation
 1. `git clone https://github.com/Jppat/grab-wp-post.git`
 2. `cd grab-wp-post`
