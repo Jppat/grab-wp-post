@@ -7,6 +7,7 @@ import { decode } from "he";
 
 import createAxiosInstance from './axiosInstance';
 import Message from './Message';
+import Button from './Button';
 
 import './App.css';
 
@@ -38,10 +39,7 @@ function Post({post}) {
         <h3 className='card-title'>{decode(post.title)}</h3>
         <Markdown>{decode(post.excerpt)}</Markdown>
         <div className="card-actions justify-start items-center">
-          <button className="btn justify-start" 
-                  onClick={() => copyButton(post.title, post.content, post.link)}>
-                    Copy
-          </button>
+          <Button btnText={"Copy"} onClick={() => copyButton(post.title, post.content, post.link)} />
           {showCopyMessage ? <span className="text-xs ml-2 text-accent-content font-bold inline-flex items-center">{showCopyMessage}</span>:null}
         </div>
       </div>
@@ -100,8 +98,7 @@ function Form(props){
           <label htmlFor="date"><strong>Date published: </strong></label>
           <input className="input" type="date" id= "date" name="date"  value={props.date} onChange={e => props.setDate(e.target.value)}/>
         </div>
-
-        <button className="btn grow-0" type="submit">Submit</button>
+        <Button btnText={"Submit"} type="submit" />
       </form>
     </>
   )
