@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef, use } from 'react';
 
 import DOMPurify from 'dompurify';
 import TurndownService from 'turndown';
@@ -15,10 +15,18 @@ function Post({post}) {
 
     const [isTextCopied, setIsTextCopied] = useState(false);
     const [showCopyMessage, setShowCopyMessage] = useState(null);
+    const [displayedContent, setDisplayedContent] = useState("");
 
-    async function copyText(title, content, link){
-      const contentByParagraph = content.split(/\n+/);
-      const copiedText = `${title}\n\n${contentByParagraph[0]}\n\n${link}`;
+    let showMoreCount = useRef(0);
+
+    const contentByParagraph = post.content.split(/\n+/);
+
+    useEffect(() => {
+      setDisplayedContent(contentByParagraph[0]);
+    }, []);
+
+    async function copyText(){
+      const copiedText = `${post.title}\n\n${contentByParagraph[0]}\n${post.link}`;
       try {
         await navigator.clipboard.writeText(copiedText);
         setIsTextCopied(true);
@@ -31,16 +39,27 @@ function Post({post}) {
           setShowCopyMessage('Failed to copy. Try again.');
           console.error('Failed to copy:', err);
         }
-  }
+      }
+
+    function handleShowMore(){
+      showMoreCount.current += 1;
+      console.log("Show more count:", showMoreCount.current);
+      const content = contentByParagraph.reduce((acc, par, index) => {
+        if (index > showMoreCount.current) return acc;
+        return acc + "\n\n" + par;
+      }, "");
+      setDisplayedContent(content);
+    }
 
   return(
-    <li key={post.id} className={`card card-border w-3/12 shadow-sm ${isTextCopied ? "bg-primary" : null}`} >
-      <div className="card-body">
+    <li className={`card card-border w-3/12 shadow-sm ${isTextCopied ? "bg-primary" : null}`} >
+      <div className="card-body grow-0">
         <h3 className='card-title'>{decode(post.title)}</h3>
-        <Markdown>{decode(post.excerpt)}</Markdown>
+        <Markdown>{decode(displayedContent)}</Markdown>
         <div className="card-actions justify-start items-center">
-          <Button btnText={"Copy"} onClick={() => copyText(post.title, post.content, post.link)} />
+          <Button btnText={"Copy"} onClick={() => copyText()} />
           {showCopyMessage ? <span className="text-xs ml-2 text-accent-content font-bold inline-flex items-center">{showCopyMessage}</span>:null}
+          <Button btnText={"Show More"} onClick={handleShowMore} />
         </div>
       </div>
     </li>
@@ -57,14 +76,14 @@ function Posts({posts}) {
     let link = post.link;
     return ({id, title, excerpt, content, link});
   })
-  const final_post = post_info.filter(post => post.excerpt != "");
+  const filtered_post = post_info.filter(post => post.excerpt != "");
   return (
     <>
       {(posts.length > 0) && 
       // <ul className = "flex flex-row justify-center flex-wrap gap-5 list-none w-full ps-0">
       <ul className = "flex flex-row justify-center flex-wrap gap-5 list-none w-full ps-0 p-3">
-        {final_post.map(post => (
-          <Post post={post} />
+        {filtered_post.map(post => (
+          <Post key={post.id} post={post} />
         ))}
       </ul>
     }
