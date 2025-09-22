@@ -26,7 +26,7 @@ function Post({post}) {
     }, []);
 
     async function copyText(){
-      const copiedText = `${post.title}\n\n${contentByParagraph[0]}\n${post.link}`;
+      const copiedText = `${post.title}${displayedContent}\n\n${post.link}`;
       try {
         await navigator.clipboard.writeText(copiedText);
         setIsTextCopied(true);
