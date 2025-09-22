@@ -16,7 +16,7 @@ function Post({post}) {
     const [isTextCopied, setIsTextCopied] = useState(false);
     const [showCopyMessage, setShowCopyMessage] = useState(null);
 
-    async function copyButton(title, content, link){
+    async function copyText(title, content, link){
       const contentByParagraph = content.split(/\n+/);
       const copiedText = `${title}\n\n${contentByParagraph[0]}\n\n${link}`;
       try {
@@ -39,7 +39,7 @@ function Post({post}) {
         <h3 className='card-title'>{decode(post.title)}</h3>
         <Markdown>{decode(post.excerpt)}</Markdown>
         <div className="card-actions justify-start items-center">
-          <Button btnText={"Copy"} onClick={() => copyButton(post.title, post.content, post.link)} />
+          <Button btnText={"Copy"} onClick={() => copyText(post.title, post.content, post.link)} />
           {showCopyMessage ? <span className="text-xs ml-2 text-accent-content font-bold inline-flex items-center">{showCopyMessage}</span>:null}
         </div>
       </div>
