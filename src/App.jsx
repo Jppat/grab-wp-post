@@ -43,7 +43,6 @@ function Post({post}) {
 
     function handleShowMore(){
       showMoreCount.current += 1;
-      console.log("Show more count:", showMoreCount.current);
       const content = contentByParagraph.reduce((acc, par, index) => {
         if (index > showMoreCount.current) return acc;
         return acc + "\n\n" + par;
@@ -138,8 +137,6 @@ function App() {
     categoryId ? (params['categories'] = categoryId): null;
     date && (params['after'] = `${date}T00:00:00`) && (params['before'] = `${date}T23:59:59`);
 
-    console.log("Params:", params);
-
     const axiosInstance = createAxiosInstance();
     
     try {
@@ -152,10 +149,7 @@ function App() {
       })
       if (response.length === 0) {setMessage("No posts found.")}
       setPosts(response); // return just the data from the API
-      console.log("inside try block");
     } catch (error) {
-      console.log("inside catch block");
-      console.log(error);
       setMessage(error.humanMessage);
       setPosts([]);
     }
