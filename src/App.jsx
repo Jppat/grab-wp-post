@@ -22,11 +22,12 @@ function Post({post}) {
     const contentByParagraph = post.content.split(/\n+/);
 
     useEffect(() => {
-      setDisplayedContent(contentByParagraph[0]);
+      setDisplayedContent(`${contentByParagraph[0]}`);
     }, []);
 
     async function copyText(){
-      const copiedText = `${post.title}${displayedContent}\n\n${post.link}`;
+      const copiedText = `${post.title}\n${displayedContent}\n\n${post.link}`;
+      console.log(copiedText);
       try {
         await navigator.clipboard.writeText(copiedText);
         setIsTextCopied(true);
