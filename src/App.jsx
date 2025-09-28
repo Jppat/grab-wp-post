@@ -109,7 +109,7 @@ function Form(props){
         </div>
 
         <div>
-          <label htmlFor="category"><strong>Category id: </strong></label>
+          <label htmlFor="category"><strong>Category: </strong></label>
           <input className="input" type="text" id= "category" name="category" value={props.category} onChange={e => props.setCategory(e.target.value)}/>
         </div>
 
