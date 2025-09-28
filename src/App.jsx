@@ -109,8 +109,8 @@ function Form(props){
         </div>
 
         <div>
-          <label htmlFor="category-id"><strong>Category id: </strong></label>
-          <input className="input" type="number" id= "category-id" name="category-id" step="1" value={props.categoryId} onChange={e => props.setCategoryId(e.target.value)}/>
+          <label htmlFor="category"><strong>Category id: </strong></label>
+          <input className="input" type="text" id= "category" name="category" value={props.category} onChange={e => props.setCategory(e.target.value)}/>
         </div>
 
         <div>
@@ -125,7 +125,7 @@ function Form(props){
 
 function App() {
   const [url, setUrl] = useState("")
-  const [categoryId, setCategoryId] = useState(null)
+  const [category, setCategory] = useState(null)
   const [date, setDate] = useState("")
   const [posts, setPosts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -135,7 +135,7 @@ function App() {
     e.preventDefault();
     
     const params = {}
-    categoryId ? (params['categories'] = categoryId): null;
+    category ? (params['categories'] = category): null;
     date && (params['after'] = `${date}T00:00:00`) && (params['before'] = `${date}T23:59:59`);
 
     const axiosInstance = createAxiosInstance();
@@ -162,7 +162,7 @@ function App() {
     <main className="w-screen" >
       <Form onSubmit={handleSubmit} 
             setUrl={setUrl}
-            setCategoryId={setCategoryId}
+            setCategory={setCategory}
             setDate={setDate} />
       <section className={"posts"} >
         {isLoading && <p className="text-center text-lg font-bold text-gray-600 mx-auto">Loading...</p>}
