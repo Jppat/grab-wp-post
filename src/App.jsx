@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 
 import createAxiosInstance from './axiosInstance';
 import Message from './Message';
@@ -43,12 +43,12 @@ function App() {
 
   return (
     <>
-    <main className="w-screen" >
+    <main className="flex flex-col justify-center items-center max-w-screen" >
       <Form onSubmit={handleSubmit} 
             setUrl={setUrl}
             setCategory={setCategory}
             setDate={setDate} />
-      <section className={"posts"} >
+      <section className="flex justify-center" >
         {isLoading && <p className="text-center text-lg font-bold text-gray-600 mx-auto">Loading...</p>}
         {message && <Message message={message} />}
         <Posts posts={posts}/>

@@ -1,22 +1,10 @@
-import { useState, useEffect} from 'react';
 import Button from './Button';
-
-function useDebounce(value, delay = 300) {
-  const [debounced, setDebounced] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => setDebounced(value), delay);
-    return () => clearTimeout(handler);
-  }, [value, delay]);
-
-  return debounced;
-}
 
 function Form(props){  
   return(
     <>
       <form
-        className="flex flex-col justify-self-center gap-2 mt-8 mb-8 w-4/12 p-6 rounded-lg shadow-sm" 
+        className="flex flex-col justify-self-center gap-2 mt-8 mb-8 max-w-fit p-6 rounded-lg shadow-sm" 
         onSubmit={props.onSubmit}>
         <div>
           <label htmlFor="url"><strong>WordPress Site URL: </strong></label>
@@ -30,7 +18,7 @@ function Form(props){
         </div>
 
         <div>
-          <label htmlFor="category"><strong>Category: </strong></label>
+          <label htmlFor="category"><strong>Category Id: </strong></label>
           <input className="input" type="text" id= "category" name="category" value={props.category} onChange={e => props.setCategory(e.target.value)}/>
         </div>
 

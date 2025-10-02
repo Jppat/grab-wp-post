@@ -1,7 +1,7 @@
 function Button ({onClick, btnText, type="button"}) {
     return (
         <button
-            className="btn"
+            className="btn max-w-3/6"
             onClick={onClick}
             type={type}>
             {btnText}

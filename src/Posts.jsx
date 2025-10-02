@@ -48,13 +48,13 @@ function Post({post}) {
     }
 
   return(
-    <li className={`card card-border w-3/12 shadow-sm ${isTextCopied ? "bg-primary" : null}`} >
-      <div className="card-body grow-0">
+    <li className={`card card-border shadow-sm ${isTextCopied ? "bg-primary" : null}`} >
+      <div className="card-body">
         <h3 className='card-title'>{decode(post.title)}</h3>
         <Markdown>{decode(displayedContent)}</Markdown>
         <div className="card-actions justify-start items-center">
           <Button btnText={"Copy"} onClick={() => copyText()} />
-          {showCopyMessage ? <span className="text-xs ml-2 text-accent-content font-bold inline-flex items-center">{showCopyMessage}</span>:null}
+          {showCopyMessage ? <span className="text-xs mx-2 text-accent-content font-bold inline-flex items-center">{showCopyMessage}</span>:null}
           <Button btnText={"Show More"} onClick={handleShowMore} />
         </div>
       </div>
@@ -77,7 +77,7 @@ function Posts({posts}) {
     <>
       {(posts.length > 0) && 
       // <ul className = "flex flex-row justify-center flex-wrap gap-5 list-none w-full ps-0">
-      <ul className = "flex flex-row justify-center flex-wrap gap-5 list-none w-full ps-0 p-3">
+      <ul className = "flex flex-col gap-5 min-w-[300px] max-w-2/5">
         {filtered_post.map(post => (
           <Post key={post.id} post={post} />
         ))}
