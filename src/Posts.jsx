@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 import DOMPurify from 'dompurify';
 import TurndownService from 'turndown';
@@ -12,17 +12,26 @@ function Post({post}) {
     const [isTextCopied, setIsTextCopied] = useState(false);
     const [showCopyMessage, setShowCopyMessage] = useState(null);
     const [displayedContent, setDisplayedContent] = useState("");
-
-    let showMoreCount = useRef(0);
-
+    const [displayIndex, setDisplayIndex] = useState(0);
+    
     const contentByParagraph = post.content.split(/\n+/);
 
+    function handleShowMore() {
+      if (displayIndex >= post.content.length) return;
+      setDisplayIndex(displayIndex + 1);
+    }
+
+    function handleShowLess() {
+        if (displayIndex <= 0) return;
+        setDisplayIndex(displayIndex - 1);
+    }
+
     useEffect(() => {
-      setDisplayedContent(`${contentByParagraph[0]}`);
-    }, []);
+      setDisplayedContent(contentByParagraph.slice(0, displayIndex).join('\n\n'));
+    }, [displayIndex]);
 
     async function copyText(){
-      const copiedText = `${post.title}\n${displayedContent}\n\n${post.link}`;
+      const copiedText = `${post.title}\n\n${displayedContent}\n\n${post.link}`;
       console.log(copiedText);
       try {
         await navigator.clipboard.writeText(copiedText);
@@ -32,20 +41,11 @@ function Post({post}) {
           setShowCopyMessage(null);
           setIsTextCopied(false);
         }, 2000);
-        } catch (err) {
+      } catch (err) {
           setShowCopyMessage('Failed to copy. Try again.');
           console.error('Failed to copy:', err);
         }
       }
-
-    function handleShowMore(){
-      showMoreCount.current += 1;
-      const content = contentByParagraph.reduce((acc, par, index) => {
-        if (index > showMoreCount.current) return acc;
-        return acc + "\n\n" + par;
-      }, "");
-      setDisplayedContent(content);
-    }
 
   return(
     <li className={`card card-border shadow-sm ${isTextCopied ? "bg-primary" : null}`} >
@@ -56,6 +56,7 @@ function Post({post}) {
           <Button btnText={"Copy"} onClick={() => copyText()} />
           {showCopyMessage ? <span className="text-xs mx-2 text-accent-content font-bold inline-flex items-center">{showCopyMessage}</span>:null}
           <Button btnText={"Show More"} onClick={handleShowMore} />
+          <Button btnText={"Show Less"} onClick={handleShowLess} />
         </div>
       </div>
     </li>
