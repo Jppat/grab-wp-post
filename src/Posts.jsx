@@ -12,7 +12,7 @@ function Post({post}) {
     const [isTextCopied, setIsTextCopied] = useState(false);
     const [showCopyMessage, setShowCopyMessage] = useState(null);
     const [displayedContent, setDisplayedContent] = useState("");
-    const [displayIndex, setDisplayIndex] = useState(0);
+    const [displayIndex, setDisplayIndex] = useState(1);
     
     const contentByParagraph = post.content.split(/\n+/);
 
@@ -50,7 +50,7 @@ function Post({post}) {
   return(
     <li className={`card card-border shadow-sm ${isTextCopied ? "bg-primary" : null}`} >
       <div className="card-body">
-        <h3 className='card-title'>{decode(post.title)}</h3>
+        <a href={post.link} target='blank'><h3 className='card-title link link-hover'>{decode(post.title)}</h3></a>
         <Markdown>{decode(displayedContent)}</Markdown>
         <div className="card-actions justify-start items-center">
           <Button btnText={"Copy"} onClick={() => copyText()} />
@@ -78,7 +78,7 @@ function Posts({posts}) {
     <>
       {(posts.length > 0) && 
       // <ul className = "flex flex-row justify-center flex-wrap gap-5 list-none w-full ps-0">
-      <ul className = "flex flex-col gap-5 min-w-[300px] max-w-2/5">
+      <ul className = "flex flex-col gap-5 min-w-[400px] max-w-2/5">
         {filtered_post.map(post => (
           <Post key={post.id} post={post} />
         ))}

@@ -48,7 +48,7 @@ function App() {
             setUrl={setUrl}
             setCategory={setCategory}
             setDate={setDate} />
-      <section className="flex justify-center" >
+      <section className="flex justify-center mb-8" >
         {isLoading && <p className="text-center text-lg font-bold text-gray-600 mx-auto">Loading...</p>}
         {message && <Message message={message} />}
         <Posts posts={posts}/>
