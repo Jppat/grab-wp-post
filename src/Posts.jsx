@@ -83,7 +83,7 @@ function Posts({posts}) {
           <Post key={post.id} post={post} />
         ))}
       </ul>
-    }
+      }
     </>
   );
 }
