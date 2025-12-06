@@ -46,6 +46,7 @@ function App() {
     <main className="flex flex-col justify-center items-center max-w-screen" >
       <Form onSubmit={handleSubmit} 
             setUrl={setUrl}
+            category={category}
             setCategory={setCategory}
             setDate={setDate} />
       <section className="flex justify-center mb-8" >

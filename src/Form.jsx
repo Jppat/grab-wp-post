@@ -1,24 +1,38 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Button from './Button';
+import createAxiosInstance from './axiosInstance';
 
+function useDebounce(value, delay = 500){
+  let response;
+  console.log(`debounce hook triggered, value: ${value}, response: ${response}`);
+  
+  async function fetchCategory() {
+    try {
+      const axiosInstance = createAxiosInstance();
+      const response = await axiosInstance.get(`https://www.watchmendailyjournal.com/wp-json/wp/v2/categories?slug=${value}&_fields=id,name,slug`)
+      console.log("response:", response);
+    } catch (error) {
+      console.error("Error fetching category data:", error);
+    }
+  }
 
-export function useDebounce(value, delay = 500){
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
+  // fetchCategory();
   useEffect(() => {
     const handler = setTimeout(() => {
-      setDebouncedValue(value);
+      fetchCategory();
     }, delay);
     return () => {
       clearTimeout(handler);
     };
   }, [value, delay]);
 
-  return debouncedValue;
+  return response;
 }
 
 function Form(props){
-  const debouncedCategory = useDebounce(props.category, 500);  
+  console.log(`form rendered, category: ${props.category}`);
+  const categories = useDebounce(props.category, 2000); 
+  console.log("debounced categories:", categories);
 
   return(
     <>
@@ -38,7 +52,7 @@ function Form(props){
 
         <div>
           <label htmlFor="category"><strong>Category Id: </strong></label>
-          <input className="input" type="text" id= "category" name="category" value={props.category} onChange={getSearchedCategory}/>
+          <input className="input" type="text" id= "category" name="category" value={props.category} onChange={(e) => props.setCategory(e.target.value)}/>
         </div>
 
         <div>
