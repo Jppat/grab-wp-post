@@ -31,8 +31,10 @@ function useDebounce(value, delay = 500){
 
 function Form(props){
   console.log(`form rendered, category: ${props.category}`);
-  const categories = useDebounce(props.category, 2000); 
-  console.log("debounced categories:", categories);
+  if(props.category) {
+    const categories = useDebounce(props.category, 2000); 
+    console.log("debounced categories:", categories);
+  }
 
   return(
     <>
