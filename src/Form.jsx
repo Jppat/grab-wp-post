@@ -1,6 +1,25 @@
+import { useState, useEffect } from 'react';
 import Button from './Button';
 
-function Form(props){  
+
+export function useDebounce(value, delay = 500){
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+function Form(props){
+  const debouncedCategory = useDebounce(props.category, 500);  
+
   return(
     <>
       <form
@@ -19,7 +38,7 @@ function Form(props){
 
         <div>
           <label htmlFor="category"><strong>Category Id: </strong></label>
-          <input className="input" type="text" id= "category" name="category" value={props.category} onChange={e => props.setCategory(e.target.value)}/>
+          <input className="input" type="text" id= "category" name="category" value={props.category} onChange={getSearchedCategory}/>
         </div>
 
         <div>
