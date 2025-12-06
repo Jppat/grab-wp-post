@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 ignore.txt
+src/FacebookLogIn
 
 # Editor directories and files
 .vscode/*
