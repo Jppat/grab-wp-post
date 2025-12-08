@@ -1,25 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import createAxiosInstance from './axiosInstance';
-import Message from './Message';
 import Form from './Form';
 import Posts from './Posts';
+import Message from './Message';
+import createAxiosInstance from './axiosInstance';
+import useDebounce from './debounce';
 
 import './App.css';
 
 function App() {
   const [url, setUrl] = useState("")
   const [category, setCategory] = useState(null)
+  const [categoryId, setCategoryId] = useState(null)
   const [date, setDate] = useState("")
   const [posts, setPosts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState(null)
+  
+  const fetchedCategory = useDebounce(category, 2000);
+  
+  useEffect(() => {
+    const nameToIdObj = Object.fromEntries(fetchedCategory.map(cat => [cat.name.toLowerCase(), cat.id]));
+    setCategoryId(nameToIdObj[category])
+  }, [category, fetchedCategory])
 
   async function handleSubmit(e) {
     e.preventDefault();
     
     const params = {}
-    category ? (params['categories'] = category): null;
+    category ? (params['categories'] = categoryId): null;
     date && (params['after'] = `${date}T00:00:00`) && (params['before'] = `${date}T23:59:59`);
 
     const axiosInstance = createAxiosInstance();
@@ -48,6 +57,7 @@ function App() {
             url = {url}
             setUrl={setUrl}
             category={category}
+            fetchedCategory={fetchedCategory}
             setCategory={setCategory}
             setDate={setDate} />
       <section className="flex justify-center mb-8" >

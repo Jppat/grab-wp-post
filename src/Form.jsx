@@ -2,8 +2,6 @@ import Button from './Button';
 import useDebounce from './debounce';
 
 function Form(props){
-  const fetchedCategory = useDebounce(props.category, 2000);
-
   return(
     <>
       <form
@@ -24,7 +22,7 @@ function Form(props){
           <label htmlFor="category"><strong>Category: </strong></label>
           <input className="input" list="categories" id="category" name="category" value={props.category} onChange={(e) => props.setCategory(e.target.value)}/>
           <datalist id="categories">
-            {fetchedCategory && fetchedCategory.map(cat => (
+            {props.fetchedCategory && props.fetchedCategory.map(cat => (
               <option key={cat.id} value={cat.slug} />
             ))}
           </datalist>
