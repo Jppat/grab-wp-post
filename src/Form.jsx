@@ -1,41 +1,38 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Button from './Button';
 import createAxiosInstance from './axiosInstance';
 
-function useDebounce(value, delay = 500){
-  let response;
-  console.log(`debounce hook triggered, value: ${value}, response: ${response}`);
-  
-  async function fetchCategory() {
-    try {
-      const axiosInstance = createAxiosInstance();
-      const response = await axiosInstance.get(`https://www.watchmendailyjournal.com/wp-json/wp/v2/categories?slug=${value}&_fields=id,name,slug`)
-      console.log("response:", response);
-    } catch (error) {
-      console.error("Error fetching category data:", error);
-    }
-  }
+function useDebounce(value, delay = 500) {
+  const [debouncedData, setDebouncedData] = useState([]);
+  console.log(`useDebounce called with value: ${value}, debouncedData: ${debouncedData}`);
 
-  // fetchCategory();
   useEffect(() => {
-    const handler = setTimeout(() => {
-      fetchCategory();
+    if (!value) return;
+
+    const handler = setTimeout(async () => {
+      try {
+        const axiosInstance = createAxiosInstance();
+        const response = await axiosInstance.get(
+          `https://www.watchmendailyjournal.com/wp-json/wp/v2/categories?slug=${value}&_fields=id,name,slug`
+        );
+        setDebouncedData(response);
+        console.log("Fetched category data:", response);
+      } catch (error) {
+        console.error("Error fetching category data:", error);
+      }
     }, delay);
-    return () => {
-      clearTimeout(handler);
-    };
+
+    return () => clearTimeout(handler);
   }, [value, delay]);
 
-  return response;
+  return debouncedData;
 }
 
 function Form(props){
   console.log(`form rendered, category: ${props.category}`);
-  if(props.category) {
-    const categories = useDebounce(props.category, 2000); 
-    console.log("debounced categories:", categories);
-  }
-
+  const fetchedCategory = useDebounce(props.category, 2000);
+  console.log("debounced categories:", fetchedCategory);
+  
   return(
     <>
       <form
@@ -53,10 +50,14 @@ function Form(props){
         </div>
 
         <div>
-          <label htmlFor="category"><strong>Category Id: </strong></label>
-          <input className="input" type="text" id= "category" name="category" value={props.category} onChange={(e) => props.setCategory(e.target.value)}/>
+          <label htmlFor="category"><strong>Category: </strong></label>
+          <input className="input" list="categories" id="category" name="category" value={props.category} onChange={(e) => props.setCategory(e.target.value)}/>
+          <datalist id="categories">
+            {fetchedCategory && fetchedCategory.map(cat => (
+              <option key={cat.id} value={cat.slug} />
+            ))}
+          </datalist>
         </div>
-
         <div>
           <label htmlFor="date"><strong>Date published: </strong></label>
           <input className="input" type="date" id= "date" name="date"  value={props.date} onChange={e => props.setDate(e.target.value)}/>
