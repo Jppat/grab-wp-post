@@ -45,6 +45,7 @@ function App() {
     <>
     <main className="flex flex-col justify-center items-center max-w-screen" >
       <Form onSubmit={handleSubmit} 
+            url = {url}
             setUrl={setUrl}
             category={category}
             setCategory={setCategory}
