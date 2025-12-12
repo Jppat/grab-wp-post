@@ -22,13 +22,20 @@ function App() {
   useEffect(() => {
     const nameToIdObj = Object.fromEntries(fetchedCategory.map(cat => [cat.name.toLowerCase(), cat.id]));
     setCategoryId(nameToIdObj[category])
-  }, [category, fetchedCategory])
+  }, [category, fetchedCategory]);
+
+  useEffect(() => {
+    if(!date){
+      const today = new Date().toISOString().split("T")[0];
+      setDate(today);
+    }
+  }, [date]);
 
   async function handleSubmit(e) {
     e.preventDefault();
     
     const params = {}
-    category ? (params['categories'] = categoryId): null;
+    category && (params['categories'] = categoryId);
     date && (params['after'] = `${date}T00:00:00`) && (params['before'] = `${date}T23:59:59`);
 
     const axiosInstance = createAxiosInstance();
