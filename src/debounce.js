@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 import createAxiosInstance from './axiosInstance';
 
-export default function useDebounce(value, delay = 500) {
+export default function useDebounceSearch(value, delay = 500, url) {
   const [debouncedData, setDebouncedData] = useState([]);
   
   useEffect(() => {
-    if (!value) return;
+    if (!value || !url) return;
 
     const handler = setTimeout(async () => {
       try {
         const axiosInstance = createAxiosInstance();
         const response = await axiosInstance.get(
-          `https://www.watchmendailyjournal.com/wp-json/wp/v2/categories?slug=${value}&_fields=id,name,slug`
+          `${url}/wp-json/wp/v2/categories?slug=${value}&_fields=id,name,slug`
         );
         setDebouncedData(response);
       } catch (error) {
@@ -20,7 +20,7 @@ export default function useDebounce(value, delay = 500) {
     }, delay);
 
     return () => clearTimeout(handler);
-  }, [value, delay]);
+  }, [value, delay, url]);
 
   return debouncedData;
 }

@@ -4,7 +4,7 @@ import Form from './Form';
 import Posts from './Posts';
 import Message from './Message';
 import createAxiosInstance from './axiosInstance';
-import useDebounce from './debounce';
+import useDebounceSearch from './debounce';
 
 import './App.css';
 
@@ -17,7 +17,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState(null)
   
-  const fetchedCategory = useDebounce(category, 2000);
+  const fetchedCategory = useDebounceSearch(category, 2000, url);
   
   useEffect(() => {
     const nameToIdObj = Object.fromEntries(fetchedCategory.map(cat => [cat.name.toLowerCase(), cat.id]));
