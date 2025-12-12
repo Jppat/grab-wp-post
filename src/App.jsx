@@ -26,8 +26,13 @@ function App() {
 
   useEffect(() => {
     if(!date){
-      const today = new Date().toISOString().split("T")[0];
-      setDate(today);
+      
+      const localDate = new Date();
+      const pad = (n) => String(n).padStart(2, "0");
+      const year = localDate.getFullYear();
+      const month = pad(localDate.getMonth() + 1);
+      const day = pad(localDate.getDate());
+      setDate(`${year}-${month}-${day}`);
     }
   }, [date]);
 
