@@ -5,11 +5,35 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Grab WP Post</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
-    <script type="module" crossorigin src="/grab-wp-post/assets/index-DppjKiBf.js"></script>
-    <link rel="stylesheet" crossorigin href="/grab-wp-post/assets/index-DWK89kAC.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+    <script type="module" crossorigin src="/grab-wp-post/assets/index-C8Z5NyaF.js"></script>
+    <link rel="stylesheet" crossorigin href="/grab-wp-post/assets/index-ByYp0AJ6.css">
   </head>
   <body>
-    <div id="root"></div>
+
+    <script>
+      (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '818336880980125',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v24.0'
+        });
+          
+        FB.AppEvents.logPageView();   
+      };
+    </script>
+
+    <div id="root"></div>
+    <div id="fb-root"></div> 
+
   </body>
 </html>
