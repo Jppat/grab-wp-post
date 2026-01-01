@@ -13,7 +13,7 @@ export default function useDebounceSearch(value, delay = 500, url) {
         const response = await axiosInstance.get(
           `${url}/wp-json/wp/v2/categories?slug=${value}&_fields=id,name,slug`
         );
-        setDebouncedData(response);
+        setDebouncedData(response.data);
       } catch (error) {
         console.error("Error fetching category data:", error);
       }
