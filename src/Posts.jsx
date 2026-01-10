@@ -31,7 +31,8 @@ function Post({post}) {
     }, [displayIndex]);
 
     async function copyText(){
-      const copiedText = `${post.title}\n\n${displayedContent}\n\n${post.link}`;
+      const noImages = displayedContent.replace(/!\[[^\]]*]\([^)]*\)/g, '');
+      const copiedText = `${post.title}\n\n${noImages}\n\n${post.link}`;
       console.log(copiedText);
       try {
         await navigator.clipboard.writeText(copiedText);
