@@ -117,7 +117,7 @@ function App() {
         <Posts posts={posts}/>
         {isLoading && <p className="text-center text-lg font-bold text-gray-600 mx-auto m-10">Loading...</p>}
         {((posts.length > 0) && (page != totalPages)) && <Button btnText={"Load More"} type="button" onClick={setNextPage} />}
-        {((page >= totalPages) && !isLoading) && <p className="text-center text-lg font-bold text-gray-600 mx-auto m-10">No more posts to load.</p>}
+        {(totalPages !== null && page >= totalPages && !isLoading) && <p className="text-center text-lg font-bold text-gray-600 mx-auto m-10">No more posts to load.</p>}
       </section>
     </main>
     </>
