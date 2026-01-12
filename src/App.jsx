@@ -6,6 +6,8 @@ import Message from './Message';
 import createAxiosInstance from './axiosInstance';
 import useDebounceSearch from './debounce';
 import Button from './Button';
+import NavBar from './NavBar';
+import Faq from './Faq'
 
 import './App.css';
 
@@ -20,6 +22,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [fetchPost, setFetchPost] = useState(false);
   const [message, setMessage] = useState(null);
+  const [highlightFaq, setHighlightFaq] = useState(false);
   const fetchedCategory = useDebounceSearch(category, 2000, url);
   
   useEffect(() => {
@@ -67,6 +70,13 @@ function App() {
     setCategoryId(nameToIdObj[category])
   }, [category, fetchedCategory]);
 
+  useEffect(() => {
+    if (highlightFaq) {
+        setTimeout(() => {
+            setHighlightFaq(false);
+        }, 2000);
+    }
+  },[highlightFaq])
 
   function prepareParams(){
     const params = {}
@@ -103,7 +113,10 @@ function App() {
   }
 
   return (
-    <>
+    <div>
+    <header className="flex items-center justify-center mt-8">
+      <NavBar setHighlightFaq={setHighlightFaq} />
+    </header>
     <main className="flex flex-col justify-center items-center max-w-screen" >
       <Form onSubmit={handleSubmit} 
             url = {url}
@@ -112,7 +125,7 @@ function App() {
             fetchedCategory={fetchedCategory}
             setCategory={setCategory}
             setDate={setDate} />
-      <section className="flex flex-col justify-center items-center mb-8" >
+      <section className="posts flex flex-col justify-center items-center mb-8" >
         {message && <Message message={message}/>}
         <Posts posts={posts}/>
         {isLoading && <p className="text-center text-lg font-bold text-gray-600 mx-auto m-10">Loading...</p>}
@@ -120,11 +133,11 @@ function App() {
         {(totalPages !== null && page >= totalPages && !isLoading) && <p className="text-center text-lg font-bold text-gray-600 mx-auto m-10">No more posts to load.</p>}
       </section>
     </main>
-    </>
+    <section className="FAQ w-5/12 mx-auto mb-10 rounded-md">
+      <Faq highlightFaq={highlightFaq} />
+    </section>
+    </div>
     )
 }
 
 export default App
-
-
-// to do: stop resetting posts in requestPosts but find out why i reset in the first place
