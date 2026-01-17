@@ -17,7 +17,7 @@ function App() {
   const [categoryId, setCategoryId] = useState(null);
   const [date, setDate] = useState("");
   const [posts, setPosts] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [fetchPost, setFetchPost] = useState(false);
@@ -130,6 +130,8 @@ function App() {
         <Posts posts={posts}/>
         {isLoading && <p className="text-center text-lg font-bold text-gray-600 mx-auto m-10">Loading...</p>}
         {((posts.length > 0) && (page != totalPages)) && <Button btnText={"Load More"} type="button" onClick={setNextPage} />}
+        {console.log("page, totalpages",page, totalPages, totalPages !== 0)}
+        {(totalPages !== null && totalPages !== 0) && <p className='text-gray-500'>{page} / {totalPages}</p>}
         {(totalPages !== null && page >= totalPages && !isLoading) && <p className="text-center text-lg font-bold text-gray-600 mx-auto m-10">No more posts to load.</p>}
       </section>
     </main>
