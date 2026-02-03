@@ -4,7 +4,8 @@ function Navbar({setHighlightFaq}) {
         <>
             <div className="navbar bg-base-100 shadow-lg w-5/12 rounded-full">
             <div className="flex-1">
-                <a className="rounded-full btn btn-ghost text-xl font-bold">Grab WP Post</a>
+                <a className="site-title rounded-full btn btn-ghost text-xl font-bold">Grab WP Post</a>
+                <a className="site-title-small rounded-full btn btn-ghost text-xl font-bold">GWP</a>
             </div>
             <div className="flex-none">
                 <ul className="menu menu-horizontal px-1">

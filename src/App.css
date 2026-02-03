@@ -1,3 +1,17 @@
+.site-title-small {
+    display: none;
+}
+
+@media screen and (max-width: 600px) {
+    .site-title {
+        display: none;
+    }
+    .site-title-small {
+        display: inline;
+    }
+}
+
+
 /* body {
     font-family: 'Roboto', sans-serif;
 }
