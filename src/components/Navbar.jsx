@@ -10,7 +10,14 @@ function Navbar({setHighlightFaq}) {
             <div className="flex-none">
                 <ul className="menu menu-horizontal px-1">
                 {/* <li><a href="#faq">FAQ</a></li> */}
-                <button className="rounded-full btn btn-ghost btn-sm ml-4" onClick={() => {setHighlightFaq(true)}}>FAQ</button>
+                <button 
+                    className="rounded-full btn btn-ghost btn-sm ml-4" 
+                    onClick={() => {
+                        setHighlightFaq(true);
+                        document.getElementById('faq').scrollIntoView({ behavior: 'smooth' });
+                }}
+                >FAQ
+                </button>
                 </ul>
             </div>
             </div>
