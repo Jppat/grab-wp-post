@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import createAxiosInstance from './axiosInstance';
+import createAxiosInstance from '../utils/axiosInstance';
 
 export default function useDebounceSearch(value, delay = 500, url) {
   const [debouncedData, setDebouncedData] = useState([]);

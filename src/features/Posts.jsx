@@ -5,18 +5,19 @@ import TurndownService from 'turndown';
 import Markdown from 'react-markdown';
 import { decode } from "he";
 
-import Button from './Button';
+import Button from '../components/Button';
 
 function Post({post}) {
+  
+  
+  const [isTextCopied, setIsTextCopied] = useState(false);
+  const [showCopyMessage, setShowCopyMessage] = useState(null);
+  const [displayedContent, setDisplayedContent] = useState("");
+  const [displayIndex, setDisplayIndex] = useState(1);
 
-    const [isTextCopied, setIsTextCopied] = useState(false);
-    const [showCopyMessage, setShowCopyMessage] = useState(null);
-    const [displayedContent, setDisplayedContent] = useState("");
-    const [displayIndex, setDisplayIndex] = useState(1);
-    
-    const contentByParagraph = post.content.split(/\n+/);
+  const contentByParagraph = post.content.split(/\n+/);
 
-    function handleShowMore() {
+  function handleShowMore() {
       if (displayIndex >= post.content.length) return;
       setDisplayIndex(displayIndex + 1);
     }
@@ -46,21 +47,24 @@ function Post({post}) {
           setShowCopyMessage('Failed to copy. Try again.');
           console.error('Failed to copy:', err);
         }
-      }
+    }
+
 
   return(
-    <li className={`card card-border shadow-sm ${isTextCopied ? "bg-primary" : null}`} >
-      <div className="card-body">
-        <a href={post.link} target='blank'><h3 className='card-title link link-hover'>{decode(post.title)}</h3></a>
-        <Markdown>{decode(displayedContent)}</Markdown>
-        <div className="card-actions justify-start items-center">
-          <Button btnText={"Copy"} onClick={() => copyText()} />
-          {showCopyMessage ? <span className="text-xs mx-2 text-accent-content font-bold inline-flex items-center">{showCopyMessage}</span>:null}
-          <Button btnText={"Show More"} onClick={handleShowMore} />
-          <Button btnText={"Show Less"} onClick={handleShowLess} />
+    <>
+      <li className={`card card-border shadow-sm ${isTextCopied ? "bg-primary" : null}`} >
+        <div className="card-body">
+          <a href={post.link} target='blank'><h3 className='card-title link link-hover'>{decode(post.title)}</h3></a>
+          <Markdown>{decode(displayedContent)}</Markdown>
+          <div className="card-actions justify-start items-center">
+            <Button btnText={"Copy"} onClick={() => copyText()} />
+            {showCopyMessage ? <span className="text-xs mx-2 text-accent-content font-bold inline-flex items-center">{showCopyMessage}</span>:null}
+            <Button btnText={"Show More"} onClick={handleShowMore} />
+            <Button btnText={"Show Less"} onClick={handleShowLess} />
+          </div>
         </div>
-      </div>
-    </li>
+      </li>
+    </>
   )
 }
 

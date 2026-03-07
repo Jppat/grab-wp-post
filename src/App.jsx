@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 
-import Form from './Form';
-import Posts from './Posts';
-import Message from './Message';
-import createAxiosInstance from './axiosInstance';
-import useDebounceSearch from './debounce';
-import Button from './Button';
-import NavBar from './NavBar';
-import Faq from './Faq'
+import Form from './features/Form';
+import Posts from './features/Posts';
+import Message from './components/Message';
+import createAxiosInstance from './utils/axiosInstance';
+import useDebounceSearch from './hooks/debounce';
+import Button from './components/Button';
+import NavBar from './components/Navbar';
+import Faq from './features/Faq'
 
 import './App.css';
 
