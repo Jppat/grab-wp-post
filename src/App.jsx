@@ -125,7 +125,7 @@ function App() {
             fetchedCategory={fetchedCategory}
             setCategory={setCategory}
             setDate={setDate} />
-      <section className="posts flex flex-col justify-center items-center mb-8" >
+      <section className={`posts flex flex-col justify-center items-center m-8`}>
         {message && <Message message={message}/>}
         <Posts posts={posts}/>
         {isLoading && <p className="text-center text-lg font-bold text-gray-600 mx-auto m-10">Loading...</p>}

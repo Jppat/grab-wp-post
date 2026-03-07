@@ -52,7 +52,7 @@ function Post({post}) {
 
   return(
     <>
-      <li className={`card card-border shadow-sm ${isTextCopied ? "bg-primary" : null}`} >
+      <li className={`max-w-2/5 card card-border shadow-sm ${isTextCopied ? "bg-primary" : null}`} >
         <div className="card-body">
           <a href={post.link} target='blank'><h3 className='card-title link link-hover'>{decode(post.title)}</h3></a>
           <Markdown>{decode(displayedContent)}</Markdown>
@@ -69,7 +69,9 @@ function Post({post}) {
 }
 
 function Posts({posts}) {
+  const [orientation, setOrientation] = useState("List");
   const turndownService = new TurndownService();
+
   let post_info = posts.map(post => {
     let id = post.id;
     let title = post.title.rendered;
@@ -81,9 +83,10 @@ function Posts({posts}) {
   const filtered_post = post_info.filter(post => post.excerpt != "");
   return (
     <>
+      <Button onClick={() => setOrientation(prev => prev === "List" ? "Grid" : "List")} btnText={`Orientation: ${orientation}`}/>
       {(posts.length > 0) && 
       // <ul className = "flex flex-row justify-center flex-wrap gap-5 list-none w-full ps-0">
-      <ul className = "flex flex-col gap-5 min-w-[400px] max-w-2/5 mb-5">
+      <ul className = {`flex ${orientation === "List" ? "flex-col" : "flex-row items-stretch"} flex-wrap justify-center items-center min-w-[400px] gap-5 m-5`}>
         {filtered_post.map(post => (
           <Post key={post.id} post={post} />
         ))}
