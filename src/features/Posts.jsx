@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import DOMPurify from 'dompurify';
 import TurndownService from 'turndown';
@@ -9,13 +9,27 @@ import Button from '../components/Button';
 
 function Post({post}) {
   
-  
   const [isTextCopied, setIsTextCopied] = useState(false);
   const [showCopyMessage, setShowCopyMessage] = useState(null);
   const [displayedContent, setDisplayedContent] = useState("");
   const [displayIndex, setDisplayIndex] = useState(1);
+  const [scheduleDate, setScheduleDate] = useState(null);
+
+  const dialogRef = useRef(null); 
 
   const contentByParagraph = post.content.split(/\n+/);
+
+  function openScheduleDialog(){
+    if(dialogRef.current) {
+      dialogRef.current.showModal();
+    }
+  };
+
+  function closeScheduleDialog(){
+    if(dialogRef.current) {
+      dialogRef.current.close();
+    }
+  };
 
   function handleShowMore() {
       if (displayIndex >= post.content.length) return;
@@ -52,6 +66,20 @@ function Post({post}) {
 
   return(
     <>
+      <dialog ref={dialogRef} className="modal backdrop-blur-md">
+
+        <div className='p-5 rounded-md bg-white flex flex-col gap-2'>
+          <div className='gap-0.5'>
+          <p className='text-sm'>Schedule post with title:</p>
+          <h2><b>{decode(post.title)}</b></h2>
+          </div>
+          <label htmlFor="date"><strong>Set Date: </strong></label>
+          <input className="input" type="date" id="date" name="date"  value={scheduleDate} onChange={e => setScheduleDate(e.target.value)}/>
+        </div>
+
+        <Button btnText={"Close"} onClick={closeScheduleDialog} />
+      </dialog>
+
       <li className={`max-w-2/5 card card-border shadow-sm ${isTextCopied ? "bg-primary" : null}`} >
         <div className="card-body">
           <a href={post.link} target='blank'><h3 className='card-title link link-hover'>{decode(post.title)}</h3></a>
@@ -61,6 +89,7 @@ function Post({post}) {
             {showCopyMessage ? <span className="text-xs mx-2 text-accent-content font-bold inline-flex items-center">{showCopyMessage}</span>:null}
             <Button btnText={"Show More"} onClick={handleShowMore} />
             <Button btnText={"Show Less"} onClick={handleShowLess} />
+            <Button btnText={"Schedule"} onClick={openScheduleDialog} />
           </div>
         </div>
       </li>
